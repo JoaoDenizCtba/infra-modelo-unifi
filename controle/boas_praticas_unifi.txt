@@ -1,0 +1,132 @@
+# infra-modelo-unifi
+
+Repositório com configurações e exemplos técnicos para simulação e organização de ambientes UniFi em laboratório. Nenhum dado real de ambiente de produção é utilizado aqui.
+
+## Objetivo
+Disponibilizar exemplos organizados de:
+- Configuração de VLANs
+- Redes com e sem NAT
+- Boas práticas de segmentação
+- Simulação de estruturas de rede usando nomenclatura genérica
+- Configuração de conexão com dupla WAN
+
+## Estrutura
+```
+infra-modelo-unifi/
+├── README.md
+├── vlan/
+│   └── exemplo_config_vlan.txt
+├── redes/
+│   └── exemplo_sem_nat.txt
+├── controle/
+│   ├── boas_praticas_unifi.txt
+│   └── config_internet_dualwan.txt
+└── docs/
+    └── estrutura_rede_exemplo.md
+```
+
+## Uso
+Este repositório pode ser utilizado para:
+- Treinamento pessoal
+- Demonstração técnica em publicações
+- Criação de base de conhecimento interna
+
+## Observações
+- Todos os dados são genéricos, simulados e sem vínculo com qualquer organização real.
+- Não usar esse repositório para ambientes reais de produção.
+
+---
+
+Criado por João Alberto Ribeiro Deniz Junior como base pública de organização e boas práticas em redes UniFi.
+
+---
+
+### controle/config_internet_dualwan.txt
+
+```
+Configuração de Internet com Dual WAN (balanceamento de carga)
+
+Dispositivo: UDM (Dream Machine)
+
+WAN1:
+  Nome: LinkMain
+  Porta: Port 9
+  Tipo de IP: Estático
+  Endereço IP: 10.10.10.2
+  Gateway: 10.10.10.1
+  Máscara: 255.255.255.252
+  DNS Primário: 8.8.8.8
+  DNS Secundário: 1.1.1.1
+  VLAN: n/d
+
+WAN2:
+  Nome: LinkBackup
+  Porta: Port 8
+  Tipo de IP: Estático
+  Endereço IP: 10.20.20.2
+  Gateway: 10.20.20.1
+  Máscara: 255.255.255.252
+  DNS Primário: 8.8.4.4
+  DNS Secundário: 1.0.0.1
+  VLAN: n/d
+
+Modo de operação:
+  - Balanceamento de carga: Ativado
+  - Distribuição de tráfego: 50% WAN1 / 50% WAN2
+  - Teste de velocidade: Diariamente às 07:00
+
+Observação:
+- Essa configuração é usada para redundância e desempenho.
+- A distribuição equilibrada evita sobrecarga e falhas.
+```
+
+---
+
+### controle/boas_praticas_unifi.txt
+
+```
+Boas práticas para projetos UniFi - Infraestrutura corporativa
+
+1. Planejamento de Endereçamento IP:
+   - Utilize sub-redes com tamanhos adequados ao uso esperado (/24, /23, /25, /22).
+   - Reserve faixas exclusivas para dispositivos de gerência (sem DHCP).
+
+2. Estratégia de VLANs:
+   - Separe tráfegos por função: corporativo, visitantes, monitoramento, gerência.
+   - Isole VLANs sensíveis por ACLs e perfis de switch.
+
+3. DHCP e DNS:
+   - Evite conflitos definindo escopos claros.
+   - Customize servidores DNS por rede (corporativo x visitante).
+
+4. NAT:
+   - Ative apenas onde necessário (ex: visitantes).
+   - Evite duplo NAT em redes corporativas com controle de firewall centralizado.
+
+5. Wi-Fi:
+   - Nomeie SSIDs de forma padronizada e descritiva.
+   - Limite SSIDs por AP para reduzir overhead de broadcast.
+   - Configure potência manual e canais para evitar sobreposição.
+
+6. WAN:
+   - Use balanceamento de carga para redundância.
+   - Monitore links com testes de conectividade diários.
+
+7. Monitoramento:
+   - Ative logs, exporte para syslog externo se possível.
+   - Use UniFi Poller ou integrações para métricas em dashboards.
+
+8. Segurança:
+   - Bloqueie tráfego entre VLANs quando não necessário.
+   - Utilize autenticação de portal para redes abertas.
+
+9. Documentação:
+   - Mantenha nomeação coerente e padronizada.
+   - Documente redes, VLANs, escopos, IPs estáticos e função.
+
+10. Manutenção:
+    - Realize revisões periódicas nas configurações.
+    - Teste failover, aplicação de regras e isolamento.
+
+Essas práticas derivam da experiência de campo com ambientes reais de produção e foram organizadas para uso em simulações, treinamentos e aplicação gradual em infraestruturas reais.
+```
