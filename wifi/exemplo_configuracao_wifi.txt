@@ -1,0 +1,94 @@
+# infra-modelo-unifi
+
+Repositório com configurações e exemplos técnicos para simulação e organização de ambientes UniFi em laboratório. Nenhum dado real de ambiente de produção é utilizado aqui.
+
+## Objetivo
+Disponibilizar exemplos organizados de:
+- Configuração de VLANs
+- Redes com e sem NAT
+- Boas práticas de segmentação
+- Simulação de estruturas de rede usando nomenclatura genérica
+- Configuração de conexão com dupla WAN
+- Modelagem de SSIDs e perfis Wi-Fi
+
+## Estrutura
+```
+infra-modelo-unifi/
+├── README.md
+├── vlan/
+│   └── exemplo_config_vlan.txt
+├── redes/
+│   └── exemplo_sem_nat.txt
+├── controle/
+│   ├── boas_praticas_unifi.txt
+│   └── config_internet_dualwan.txt
+├── wifi/
+│   └── exemplo_configuracao_wifi.txt
+└── docs/
+    └── estrutura_rede_exemplo.md
+```
+
+## Uso
+Este repositório pode ser utilizado para:
+- Treinamento pessoal
+- Demonstração técnica em publicações
+- Criação de base de conhecimento interna
+
+## Observações
+- Todos os dados são genéricos, simulados e sem vínculo com qualquer organização real.
+- Não usar esse repositório para ambientes reais de produção.
+
+---
+
+Criado por João Alberto Ribeiro Deniz Junior como base pública de organização e boas práticas em redes UniFi.
+
+---
+
+### wifi/exemplo_configuracao_wifi.txt
+
+```
+Configurações de SSIDs - Ambiente Wi-Fi UniFi
+
+1. SSID: Corporativo
+   - VLAN: 101 (Uso administrativo)
+   - Banda: 5 GHz
+   - Segurança: WPA2/WPA3, PMF opcional
+   - Direcionamento de banda: Ativado
+   - Visibilidade: Oculto (camada adicional de controle)
+   - Hotspot: Desativado
+   - Perfil de acesso: Corporativo
+   - Rede atribuída: VLAN com NAT (acesso internet garantido)
+
+Justificativa:
+SSID voltado a dispositivos confiáveis e gerenciados. PMF opcional garante compatibilidade ampla. Banda exclusiva 5 GHz foi definida após análise dos dispositivos corporativos, que suportam plenamente esta frequência. Dispositivos que não suportam devem utilizar cabeamento.
+
+2. SSID: Visitante
+   - VLAN: 40 (Dispositivos Externos)
+   - Banda: 2.4 GHz
+   - Isolamento de cliente: Ativado
+   - Portal cativo: Ativado
+   - PMF: Desativado
+   - Perfil de acesso: Visitante
+   - Grupos de APs: Somente locais definidos (grupo A, container, etc.)
+
+Justificativa:
+Rede limitada, com segmentação e NAT, sem acesso lateral entre clientes. PMF desativado por compatibilidade com dispositivos antigos. Banda 2.4 GHz mantida por ser mais abrangente para dispositivos variados.
+
+3. SSID: Restrito
+   - VLAN: 120 (Wi-Fi de acesso controlado)
+   - Banda: 5 GHz
+   - Segurança: WPA2/WPA3 com PMF obrigatório
+   - Filtro de MAC: Lista de autorização (whitelist)
+   - Ocultar SSID: Ativado
+   - Roaming rápido WPA3: Habilitado
+   - Direcionamento de banda: Ativado
+   - Perfil de acesso: Restrito
+
+Justificativa:
+SSID com altíssimo controle para dispositivos essenciais. Acesso é concedido via MAC e a visibilidade do SSID é desativada. Segurança reforçada. Banda 5 GHz garante maior desempenho e menor interferência.
+
+Considerações Gerais:
+- Todas as redes usam configurações manuais para controle fino.
+- PMF é configurado com base na compatibilidade esperada.
+- Band steering e isolamento aumentam a eficiência e segurança da malha Wi-Fi.
+```
