@@ -1,0 +1,42 @@
+Modelo de VLANs e Sub-redes para ambiente UniFi (simulado)
+
+VLAN 1 - Default (Gerenciamento de Equipamentos)
+  Sub-rede: 10.100.100.0/25
+  Gateway: 10.100.100.1
+  DHCP: Inativo
+  Acesso: Interno restrito / Apenas dispositivos de gerência
+
+VLAN 20 - Corporativa
+  Sub-rede: 10.200.20.0/24
+  Gateway: 10.200.20.1
+  DHCP: Ativo (10.200.20.50 - 10.200.20.254)
+  DNS personalizado: 192.168.10.10 / 1.0.0.3 / 8.8.8.8
+  Acesso: Completo / Tráfego priorizado
+
+VLAN 30 - Segurança e Monitoramento
+  Sub-rede: 10.200.30.0/23
+  Gateway: 10.200.30.1
+  DHCP: Ativo (curto alcance)
+  Acesso: Internet habilitado / VLAN isolada
+
+VLAN 40 - Dispositivos Externos / Visitantes
+  Sub-rede: 10.200.40.0/22
+  Gateway: 10.200.40.1
+  DHCP: Ativo (grande intervalo)
+  DNS: 1.1.1.1 / 208.67.222.123 / 208.67.220.123
+  Acesso: Isolado, sem visibilidade de outras VLANs
+
+Notas:
+- As VLANs estão segmentadas para garantir segurança e desempenho.
+- A VLAN de visitantes está isolada por ACL.
+- Avaliar necessidade de uso de NAT de acordo com o perfil de rede e segurança.
+- DHCP e DNS são customizados por rede conforme função e perfil de dispositivos.
+
+Barramentos lógicos:
+- A estrutura foi desenhada considerando práticas consolidadas de segurança, desempenho e facilidade de gestão, alinhadas à experiência prática de campo do autor.
+- A VLAN 1 (Default) é usada exclusivamente para gerenciamento de equipamentos, com endereçamento /25 e DHCP desativado para evitar atribuições indevidas — uma abordagem comum em ambientes onde a confiabilidade da gestão é essencial.
+- A VLAN 20 concentra os dispositivos corporativos, com escopo de /24 suficiente para expansão controlada e DHCP ativo com DNS customizado, priorizando o tráfego dessa rede no balanceamento WAN.
+- A VLAN 30 isola os dispositivos de segurança e monitoramento (como câmeras e sensores), mantendo um escopo dedicado e regras que impedem comunicação lateral, garantindo integridade operacional.
+- A VLAN 40 é usada para visitantes e dispositivos externos, com grande faixa DHCP (/22), DNS resiliente e acesso estritamente controlado por ACLs.
+- A necessidade de uso de NAT deve ser avaliada conforme o papel de cada rede — visitantes podem demandar NAT externo, enquanto redes corporativas devem evitar duplo NAT.
+- O projeto adota lógica de barramento segmentado para controle granular via switch profiles e ACLs, atendendo à demanda real de ambientes com múltiplas funções em campo, como clubes, escolas ou centros esportivos.

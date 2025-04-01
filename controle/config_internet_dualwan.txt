@@ -1,0 +1,34 @@
+Configuração de Internet com Dual WAN (balanceamento de carga)
+
+Dispositivo: UDM (Dream Machine)
+
+WAN1:
+  Nome: LinkMain
+  Porta: Port 9
+  Tipo de IP: Estático
+  Endereço IP: 10.10.10.2
+  Gateway: 10.10.10.1
+  Máscara: 255.255.255.252
+  DNS Primário: 8.8.8.8
+  DNS Secundário: 1.1.1.1
+  VLAN: n/d
+
+WAN2:
+  Nome: LinkBackup
+  Porta: Port 8
+  Tipo de IP: Estático
+  Endereço IP: 10.20.20.2
+  Gateway: 10.20.20.1
+  Máscara: 255.255.255.252
+  DNS Primário: 8.8.4.4
+  DNS Secundário: 1.0.0.1
+  VLAN: n/d
+
+Modo de operação:
+  - Balanceamento de carga: Ativado
+  - Distribuição de tráfego: 50% WAN1 / 50% WAN2
+  - Teste de velocidade: Diariamente às 07:00
+
+Observação:
+- Essa configuração é usada para redundância e desempenho.
+- A distribuição equilibrada evita sobrecarga e falhas.
